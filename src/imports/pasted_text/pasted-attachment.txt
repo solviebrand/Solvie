@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLVIE — PREMIÈRE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #AEE2FC;
+  --navy: #1A2744;
+  --white: #FAFAFA;
+  --black: #0D0D0D;
+  --gray: #8A8A8A;
+  --light: #E8E8E8;
+  --cream: #F5F0EB;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: var(--blue);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 0;
+}
+
+.nav-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* SB monogram pill — drawn in CSS to match your logo */
+.nav-logo-icon {
+  width: 32px;
+  height: 40px;
+  border: 1.5px solid rgba(26,39,68,0.35);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.nav-logo-icon svg {
+  width: 20px;
+  height: 26px;
+}
+
+.nav-brand {
+  font-family: 'Forum', serif;
+  font-size: 20px;
+  letter-spacing: 0.22em;
+  color: var(--navy);
+  font-weight: 400;
+}
+
+/* spacer pushes links to center */
+.nav-spacer { flex: 1; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  list-style: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-links a {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:hover { opacity: 0.5; }
+
+/* INFO dropdown */
+.info-wrap { position: relative; }
+
+.info-dropdown {
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--white);
+  border: 1px solid rgba(26,39,68,0.1);
+  min-width: 220px;
+  padding: 8px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-50%) translateY(-6px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.info-wrap.open .info-dropdown {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+.info-dropdown a {
+  display: block;
+  padding: 11px 24px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--navy) !important;
+  text-decoration: none;
+  transition: background 0.15s;
+  border: none !important;
+}
+.info-dropdown a:hover { background: rgba(174,226,252,0.25); }
+
+/* Nav right */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lang-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 4px 6px;
+  border: none;
+  background: transparent;
+  color: rgba(26,39,68,0.45);
+  cursor: pointer;
+  transition: color 0.2s;
+  font-weight: 400;
+}
+.lang-btn.active { color: var(--navy); font-weight: 500; }
+.lang-btn:hover { color: var(--navy); }
+.lang-sep { color: rgba(26,39,68,0.25); font-size: 10px; }
+
+.cart-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-family: 'Jost', sans-serif;
+  transition: opacity 0.2s;
+}
+.cart-icon:hover { opacity: 0.6; }
+.cart-icon svg { width: 18px; height: 18px; }
+
+/* ── MARQUEE ── */
+.marquee-strip {
+  margin-top: 60px;
+  background: var(--blue);
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(26,39,68,0.1);
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 22s linear infinite;
+}
+.marquee-item {
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--navy);
+  padding: 0 40px;
+  opacity: 0.75;
+}
+.marquee-dot {
+  color: var(--navy);
+  opacity: 0.35;
+  font-size: 8px;
+  vertical-align: middle;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.hero-slides { width: 100%; height: 100%; position: relative; }
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.hero-slide.active { opacity: 1; }
+
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.1) 50%, transparent 100%);
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 72px;
+  left: 64px;
+  color: white;
+}
+
+.hero-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.hero-title {
+  font-family: 'Forum', serif;
+  font-size: 88px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  opacity: 0.8;
+  margin-bottom: 36px;
+}
+
+.hero-btns { display: flex; gap: 14px; }
+
+.hero-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1px solid white;
+  text-decoration: none;
+  display: inline-block;
+}
+.hero-btn.primary { background: white; color: var(--black); }
+.hero-btn.primary:hover { background: var(--blue); border-color: var(--blue); }
+.hero-btn.outline { background: transparent; color: white; }
+.hero-btn.outline:hover { background: rgba(255,255,255,0.12); }
+
+/* Slide dots */
+.hero-dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.hero-dot {
+  width: 28px; height: 2px;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.hero-dot.active { background: white; }
+
+/* Slide arrows */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+  user-select: none;
+}
+.hero-arrow:hover { background: rgba(255,255,255,0.25); }
+.hero-arrow.prev { left: 24px; }
+.hero-arrow.next { right: 24px; }
+
+/* ── COLLECTION SECTION ── */
+.section {
+  padding: 100px 64px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 56px;
+}
+
+.section-title {
+  font-family: 'Forum', serif;
+  font-size: 48px;
+  color: var(--navy);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+.section-sub {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Product card */
+.product-card {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.product-card:hover { transform: translateY(-4px); }
+
+.product-img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--light);
+  margin-bottom: 16px;
+}
+.product-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.6s ease;
+}
+.product-card:hover .product-img img { transform: scale(1.04); }
+
+.product-badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: var(--navy);
+  color: var(--blue);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-family: 'Forum', serif;
+  font-size: 17px;
+  color: var(--navy);
+  opacity: 0.75;
+}
+
+/* ── SHOP ── */
+.shop-section {
+  padding: 100px 64px;
+  background: var(--cream);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.shop-card {
+  background: var(--white);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.shop-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.07);
+}
+
+.shop-card-img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--light);
+}
+.shop-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.55s ease;
+}
+.shop-card:hover .shop-card-img img { transform: scale(1.04); }
+
+.shop-card-body { padding: 18px 20px 22px; }
+
+.shop-card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.shop-card-desc {
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.shop-card-price {
+  font-family: 'Forum', serif;
+  font-size: 17px;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.color-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.cdot {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.cdot:hover { transform: scale(1.2); }
+.cdot.sel { border: 2px solid var(--navy); }
+
+.size-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.sbtn {
+  font-size: 10px;
+  padding: 5px 10px;
+  border: 1px solid var(--light);
+  background: transparent;
+  color: var(--navy);
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  letter-spacing: 0.08em;
+  transition: all 0.18s;
+}
+.sbtn:hover, .sbtn.sel { background: var(--navy); color: white; border-color: var(--navy); }
+
+.add-btn {
+  width: 100%;
+  background: var(--navy);
+  color: white;
+  border: none;
+  padding: 11px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: opacity 0.2s;
+}
+.add-btn:hover { opacity: 0.78; }
+
+/* ── ABOUT ── */
+.about-section {
+  padding: 100px 64px;
+  background: var(--navy);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-section .section-title { color: var(--blue); }
+
+.about-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(174,226,252,0.65);
+  margin: 22px 0 28px;
+  line-height: 1.45;
+}
+
+.about-body {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(174,226,252,0.55);
+  letter-spacing: 0.03em;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-box {
+  background: rgba(174,226,252,0.06);
+  border: 1px solid rgba(174,226,252,0.1);
+  padding: 36px 28px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Forum', serif;
+  font-size: 52px;
+  color: var(--blue);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-lbl {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(174,226,252,0.4);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #0A0A0A;
+  padding: 64px 64px 32px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {
+  font-family: 'Forum', serif;
+  font-size: 26px;
+  letter-spacing: 0.22em;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+.footer-desc {
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(174,226,252,0.35);
+  max-width: 240px;
+}
+
+.footer-col-title {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(174,226,252,0.35);
+  margin-bottom: 18px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 9px; }
+.footer-links a {
+  font-size: 12px;
+  color: rgba(174,226,252,0.55);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  letter-spacing: 0.04em;
+}
+.footer-links a:hover { color: var(--blue); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(174,226,252,0.07);
+  padding-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy { font-size: 10px; color: rgba(174,226,252,0.25); letter-spacing: 0.1em; }
+.footer-social { display: flex; gap: 20px; }
+.footer-social a {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(174,226,252,0.35);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.footer-social a:hover { color: var(--blue); }
+
+/* ── CART DRAWER ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.38);
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 380px;
+  height: 100vh;
+  background: var(--white);
+  z-index: 301;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-head {
+  background: var(--blue);
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(26,39,68,0.1);
+}
+.cart-head-title {
+  font-family: 'Forum', serif;
+  font-size: 20px;
+  color: var(--navy);
+  letter-spacing: 0.12em;
+}
+.cart-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--navy);
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+}
+
+.cart-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+.cart-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray);
+}
+.cart-empty-icon {
+  font-family: 'Forum', serif;
+  font-size: 44px;
+  color: var(--light);
+  display: block;
+  margin-bottom: 14px;
+}
+.cart-empty-text { font-size: 12px; letter-spacing: 0.08em; }
+
+.cart-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--light);
+}
+.cart-item-img {
+  width: 66px; height: 82px;
+  object-fit: cover;
+  object-position: top;
+  background: var(--light);
+  flex-shrink: 0;
+}
+.cart-item-info { flex: 1; }
+.cart-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+.cart-item-meta { font-size: 10px; color: var(--gray); letter-spacing: 0.07em; margin-bottom: 6px; }
+.cart-item-price { font-family: 'Forum', serif; font-size: 15px; color: var(--navy); }
+.cart-rm { background: none; border: none; color: var(--gray); cursor: pointer; font-size: 16px; align-self: start; padding: 2px 4px; transition: color 0.2s; }
+.cart-rm:hover { color: var(--black); }
+
+.cart-foot {
+  padding: 20px 24px;
+  border-top: 1px solid var(--light);
+  background: var(--cream);
+}
+.cart-total-row { display: flex; justify-content: space-between; margin-bottom: 16px; align-items: center; }
+.cart-total-lbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gray); }
+.cart-total-amt { font-family: 'Forum', serif; font-size: 24px; color: var(--navy); }
+.checkout-btn {
+  width: 100%;
+  background: var(--navy);
+  color: var(--blue);
+  border: none;
+  padding: 14px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: opacity 0.2s;
+}
+.checkout-btn:hover { opacity: 0.82; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--navy);
+  color: var(--blue);
+  padding: 12px 28px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  z-index: 400;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo-wrap" href="#">
+    <!-- SB pill monogram in CSS/SVG matching your logo -->
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- S -->
+        <path d="M13.5 5C13.5 5 12.2 4 10.5 4C8.4 4 7 5.1 7 6.6C7 8.1 8.2 8.7 10.3 9.4C12.8 10.2 14.2 11.3 14.2 13.3C14.2 15.5 12.3 17 9.8 17C8 17 6.5 16.3 5.5 15.5" stroke="rgba(26,39,68,0.85)" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- B -->
+        <path d="M7 9V23M7 9H11C12.7 9 14 10.1 14 11.5C14 12.9 12.7 14 11 14H7M7 14H11.5C13.4 14 15 15.2 15 16.8C15 18.4 13.4 19.6 11.5 19.6H7" stroke="rgba(26,39,68,0.85)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="nav-brand">SOLVIE</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#collection" id="nl-collection">КОЛЕКЦІЯ</a></li>
+    <li><a href="#shop" id="nl-shop">МАГАЗИН</a></li>
+    <li class="info-wrap" id="info-wrap">
+      <a id="nl-info" onclick="toggleInfo(event)">ІНФО ▾</a>
+      <div class="info-dropdown" id="info-dropdown">
+        <a id="dd-about" href="#about">Про нас</a>
+        <a id="dd-delivery" href="#">Доставка</a>
+        <a id="dd-contacts" href="#">Контакти</a>
+        <a id="dd-returns" href="#">Повернення та обмін</a>
+        <a id="dd-social" href="#">Соціальні мережі</a>
+      </div>
+    </li>
+  </ul>
+
+  <div style="flex:1"></div>
+
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('uk')" id="lb-uk">UA</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" onclick="setLang('en')" id="lb-en">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" onclick="setLang('pl')" id="lb-pl">PL</button>
+    </div>
+    <button class="cart-icon" onclick="openCart()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee-track">
+    <span class="marquee-item" id="mq1">КОЛЕКЦІЯ 2025</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">SOLVIE PREMIÈRE</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item" id="mq2">ЖІНОЧИЙ ОДЯГ</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item" id="mq3">НОВИЙ ДРП</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">XS / S / M</span><span class="marquee-dot">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item" id="mq1b">КОЛЕКЦІЯ 2025</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">SOLVIE PREMIÈRE</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item" id="mq2b">ЖІНОЧИЙ ОДЯГ</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item" id="mq3b">НОВИЙ ДРП</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">XS / S / M</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-slides">
+
+    <div class="hero-slide active">
+      <img src="IMG_8025_2.JPG" alt="SOLVIE Tracksuit">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-slide">
+      <img src="IMG_7950_2.JPG" alt="SOLVIE Cape Dress">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-slide">
+      <img src="IMG_8365_2.JPG" alt="SOLVIE Tweed Suit">
+      <div class="hero-overlay"></div>
+    </div>
+
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow" id="hero-eyebrow">Перший дроп — 2025</span>
+    <h1 class="hero-title">SOLVIE</h1>
+    <p class="hero-subtitle">Première</p>
+    <div class="hero-btns">
+      <a href="#shop" class="hero-btn primary" id="btn-shop">Переглянути колекцію</a>
+      <a href="#about" class="hero-btn outline" id="btn-about">Про бренд</a>
+    </div>
+  </div>
+
+  <button class="hero-arrow prev" onclick="slideBy(-1)">&#8249;</button>
+  <button class="hero-arrow next" onclick="slideBy(1)">&#8250;</button>
+
+  <div class="hero-dots" id="hero-dots">
+    <div class="hero-dot active" onclick="goSlide(0)"></div>
+    <div class="hero-dot" onclick="goSlide(1)"></div>
+    <div class="hero-dot" onclick="goSlide(2)"></div>
+  </div>
+</section>
+
+<!-- ── COLLECTION LOOKBOOK ── -->
+<section id="collection" class="section">
+  <div class="section-head">
+    <h2 class="section-title" id="look-title">Колекція</h2>
+    <span class="section-sub">SOLVIE PREMIÈRE — 2025</span>
+  </div>
+  <div class="grid-3">
+    <div class="product-card">
+      <div class="product-img">
+        <img src="IMG_8365_2.JPG" alt="Твідовий костюм">
+        <span class="product-badge" id="p1-badge">Набір</span>
+      </div>
+      <div class="product-name" id="p1-name">Твідовий костюм</div>
+      <div class="product-price" id="p1-price">14 900 ₴</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <img src="IMG_8025_2.JPG" alt="Спортивний костюм">
+        <span class="product-badge" id="p2-badge">2 кольори</span>
+      </div>
+      <div class="product-name" id="p2-name">Спортивний костюм</div>
+      <div class="product-price" id="p2-price">9 500 ₴</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">
+        <img src="IMG_7950_2.JPG" alt="Сукня з кейпом">
+        <span class="product-badge" id="p3-badge">Окремо або разом</span>
+      </div>
+      <div class="product-name" id="p3-name">Сукня з кейпом</div>
+      <div class="product-price" id="p3-price">від 4 500 ₴</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHOP ── -->
+<section id="shop" class="shop-section">
+  <div class="section-head">
+    <h2 class="section-title" id="shop-title">Магазин</h2>
+    <span class="section-sub" id="shop-sub">ПЕРШИЙ ДРП — 5 ПОЗИЦІЙ</span>
+  </div>
+  <div class="shop-grid" id="shop-grid"></div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="about-section">
+  <div>
+    <h2 class="section-title" id="about-title">Про нас</h2>
+    <p class="about-tagline" id="about-tagline">Одяг, що говорить — навіть у тиші</p>
+    <p class="about-body" id="about-body">SOLVIE — це бренд жіночого одягу, народжений з бажання створювати речі з характером. Кожна деталь продумана: від крою до оздоблення. Наш перший дроп, SOLVIE PREMIÈRE, — це діалог між спортивною елегантністю та жіночною силою. Розміри XS, S, M. Доставка по Україні та Польщі.</p>
+  </div>
+  <div class="about-stats">
+    <div class="stat-box">
+      <span class="stat-num">5</span>
+      <span class="stat-lbl" id="stat1">Позицій</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">3</span>
+      <span class="stat-lbl" id="stat2">Розміри</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">2</span>
+      <span class="stat-lbl" id="stat3">Країни</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">∞</span>
+      <span class="stat-lbl" id="stat4">Стиль</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">SOLVIE</div>
+      <p class="footer-desc" id="footer-desc">Жіночий одяг. Перший дроп — SOLVIE PREMIÈRE. Доступно в Україні та Польщі.</p>
+    </div>
+    <div>
+      <div class="footer-col-title" id="fc1">Навігація</div>
+      <ul class="footer-links">
+        <li><a href="#collection" id="fl1">Колекція</a></li>
+        <li><a href="#shop" id="fl2">Магазин</a></li>
+        <li><a href="#about" id="fl3">Про нас</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" id="fc2">Інформація</div>
+      <ul class="footer-links">
+        <li><a id="fl4">Доставка</a></li>
+        <li><a id="fl5">Повернення</a></li>
+        <li><a id="fl6">Розміри</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" id="fc3">Контакти</div>
+      <ul class="footer-links">
+        <li><a>Instagram</a></li>
+        <li><a>TikTok</a></li>
+        <li><a id="fl7">Написати нам</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy" id="footer-copy">© 2025 SOLVIE. Всі права захищені.</span>
+    <div class="footer-social">
+      <a>Instagram</a>
+      <a>TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── CART ── -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <span class="cart-head-title" id="cart-title">Кошик</span>
+    <button class="cart-close-btn" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-foot" id="cart-foot" style="display:none">
+    <div class="cart-total-row">
+      <span class="cart-total-lbl" id="total-lbl">Разом</span>
+      <span class="cart-total-amt" id="cart-total">0 ₴</span>
+    </div>
+    <button class="checkout-btn" id="checkout-btn">Оформити замовлення</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── DATA ── */
+const T = {
+  uk: {
+    nlCollection:'КОЛЕКЦІЯ', nlShop:'МАГАЗИН', nlInfo:'ІНФО ▾',
+    ddAbout:'Про нас', ddDelivery:'Доставка', ddContacts:'Контакти',
+    ddReturns:'Повернення та обмін', ddSocial:'Соціальні мережі',
+    heroEyebrow:'Перший дроп — 2025',
+    btnShop:'Переглянути колекцію', btnAbout:'Про бренд',
+    mqItems:['КОЛЕКЦІЯ 2025','ЖІНОЧИЙ ОДЯГ','НОВИЙ ДРП'],
+    lookTitle:'Колекція',
+    p1n:'Твідовий костюм', p2n:'Спортивний костюм', p3n:'Сукня з кейпом',
+    p1b:'Набір', p2b:'2 кольори', p3b:'Окремо або разом',
+    shopTitle:'Магазин', shopSub:'ПЕРШИЙ ДРП — 5 ПОЗИЦІЙ',
+    aboutTitle:'Про нас',
+    aboutTagline:'Одяг, що говорить — навіть у тиші',
+    aboutBody:'SOLVIE — це бренд жіночого одягу, народжений з бажання створювати речі з характером. Кожна деталь продумана: від крою до оздоблення. Наш перший дроп, SOLVIE PREMIÈRE, — це діалог між спортивною елегантністю та жіночною силою.',
+    stat1:'Позицій', stat2:'Розміри', stat3:'Країни', stat4:'Стиль',
+    fc1:'Навігація', fc2:'Інформація', fc3:'Контакти',
+    fl1:'Колекція', fl2:'Магазин', fl3:'Про нас',
+    fl4:'Доставка', fl5:'Повернення', fl6:'Розміри', fl7:'Написати нам',
+    fdesc:'Жіночий одяг. Перший дроп — SOLVIE PREMIÈRE.',
+    fcopy:'© 2025 SOLVIE. Всі права захищені.',
+    cartTitle:'Кошик', totalLbl:'Разом', checkoutBtn:'Оформити замовлення',
+    emptyCart:'Ваш кошик порожній', addBtn:'Додати до кошика',
+    sizeMsg:'Оберіть розмір', addedMsg:'Додано до кошика ✓',
+    sym:'₴', priceKey:'uah',
+    products:[
+      {name:'Твідовий костюм',desc:'Жакет + шорти. Тільки разом.',badge:'Набір'},
+      {name:'Спортивний костюм',desc:'Зіп-худі + спідниця. 2 кольори.',badge:'Набір'},
+      {name:'Сукня',desc:'Міні-сукня. Чорний або білий.',badge:'2 кольори'},
+      {name:'Кейп',desc:'До сукні або окремо.',badge:'Окремо'},
+      {name:'Поло-боді',desc:'3 кольори: navy, блакитний, білий.',badge:'3 кольори'},
+    ]
+  },
+  en: {
+    nlCollection:'COLLECTION', nlShop:'SHOP', nlInfo:'INFO ▾',
+    ddAbout:'About Us', ddDelivery:'Delivery', ddContacts:'Contacts',
+    ddReturns:'Returns & Exchanges', ddSocial:'Social Media',
+    heroEyebrow:'First Drop — 2025',
+    btnShop:'View Collection', btnAbout:'About Brand',
+    mqItems:['COLLECTION 2025','WOMENSWEAR','NEW DROP'],
+    lookTitle:'Collection',
+    p1n:'Tweed Suit', p2n:'Tracksuit', p3n:'Cape Dress',
+    p1b:'Set', p2b:'2 colours', p3b:'Separate or together',
+    shopTitle:'Shop', shopSub:'FIRST DROP — 5 PIECES',
+    aboutTitle:'About Us',
+    aboutTagline:'Clothes that speak — even in silence',
+    aboutBody:'SOLVIE is a womenswear brand born from the desire to create pieces with character. Every detail is considered: from the cut to the finish. Our first drop, SOLVIE PREMIÈRE, is a dialogue between sporty elegance and feminine strength.',
+    stat1:'Pieces', stat2:'Sizes', stat3:'Countries', stat4:'Style',
+    fc1:'Navigation', fc2:'Information', fc3:'Contact',
+    fl1:'Collection', fl2:'Shop', fl3:'About Us',
+    fl4:'Delivery', fl5:'Returns', fl6:'Sizing', fl7:'Contact Us',
+    fdesc:'Womenswear. First drop — SOLVIE PREMIÈRE.',
+    fcopy:'© 2025 SOLVIE. All rights reserved.',
+    cartTitle:'Cart', totalLbl:'Total', checkoutBtn:'Checkout',
+    emptyCart:'Your cart is empty', addBtn:'Add to Cart',
+    sizeMsg:'Select size', addedMsg:'Added to cart ✓',
+    sym:'₴', priceKey:'uah',
+    products:[
+      {name:'Tweed Suit',desc:'Jacket + shorts. Set only.',badge:'Set'},
+      {name:'Tracksuit',desc:'Zip hoodie + skirt. 2 colours.',badge:'Set'},
+      {name:'Dress',desc:'Mini dress. Black or white.',badge:'2 colours'},
+      {name:'Cape',desc:'With dress or separate.',badge:'Separate'},
+      {name:'Polo Body',desc:'3 colours: navy, light blue, white.',badge:'3 colours'},
+    ]
+  },
+  pl: {
+    nlCollection:'KOLEKCJA', nlShop:'SKLEP', nlInfo:'INFO ▾',
+    ddAbout:'O nas', ddDelivery:'Dostawa', ddContacts:'Kontakt',
+    ddReturns:'Zwroty i wymiany', ddSocial:'Social Media',
+    heroEyebrow:'Pierwszy Drop — 2025',
+    btnShop:'Zobacz kolekcję', btnAbout:'O marce',
+    mqItems:['KOLEKCJA 2025','MODA DAMSKA','NOWY DROP'],
+    lookTitle:'Kolekcja',
+    p1n:'Garnitur tweedowy', p2n:'Dres', p3n:'Sukienka z peleryną',
+    p1b:'Komplet', p2b:'2 kolory', p3b:'Osobno lub razem',
+    shopTitle:'Sklep', shopSub:'PIERWSZY DROP — 5 POZYCJI',
+    aboutTitle:'O nas',
+    aboutTagline:'Ubrania, które mówią — nawet w ciszy',
+    aboutBody:'SOLVIE to marka odzieży damskiej, powstała z chęci tworzenia rzeczy z charakterem. Każdy detal jest przemyślany: od kroju po wykończenie. Nasz pierwszy drop, SOLVIE PREMIÈRE, to dialog między sportową elegancją a kobiecą siłą.',
+    stat1:'Pozycji', stat2:'Rozmiary', stat3:'Kraje', stat4:'Styl',
+    fc1:'Nawigacja', fc2:'Informacje', fc3:'Kontakt',
+    fl1:'Kolekcja', fl2:'Sklep', fl3:'O nas',
+    fl4:'Dostawa', fl5:'Zwroty', fl6:'Rozmiarówka', fl7:'Kontakt',
+    fdesc:'Odzież damska. Pierwszy drop — SOLVIE PREMIÈRE.',
+    fcopy:'© 2025 SOLVIE. Wszelkie prawa zastrzeżone.',
+    cartTitle:'Koszyk', totalLbl:'Łącznie', checkoutBtn:'Złóż zamówienie',
+    emptyCart:'Twój koszyk jest pusty', addBtn:'Dodaj do koszyka',
+    sizeMsg:'Wybierz rozmiar', addedMsg:'Dodano do koszyka ✓',
+    sym:'zł', priceKey:'pln',
+    products:[
+      {name:'Garnitur tweedowy',desc:'Żakiet + szorty. Tylko jako komplet.',badge:'Komplet'},
+      {name:'Dres',desc:'Bluza zip + spódnica. 2 kolory.',badge:'Komplet'},
+      {name:'Sukienka',desc:'Mini sukienka. Czarny lub biały.',badge:'2 kolory'},
+      {name:'Peleryna',desc:'Do sukienki lub osobno.',badge:'Osobno'},
+      {name:'Body polo',desc:'3 kolory: granat, błękit, biel.',badge:'3 kolory'},
+    ]
+  }
+};
+
+const PRODUCTS_DATA = [
+  {id:1, img:'IMG_8365_2.JPG', uah:14900, pln:1250, colors:['#F5F0EB'], colorN:{uk:['Молочний'],en:['Ivory'],pl:['Ecru']}, sizes:['XS','S','M']},
+  {id:2, img:'IMG_8025_2.JPG', uah:9500,  pln:800,  colors:['#1A2744','#FAFAFA'], colorN:{uk:['Navy','Білий'],en:['Navy','White'],pl:['Granat','Biały']}, sizes:['XS','S','M']},
+  {id:3, img:'IMG_7950_2.JPG', uah:10500, pln:900,  colors:['#0D0D0D','#FAFAFA'], colorN:{uk:['Чорний','Білий'],en:['Black','White'],pl:['Czarny','Biały']}, sizes:['XS','S','M']},
+  {id:4, img:'IMG_7950_2.JPG', uah:4500,  pln:370,  colors:['#0D0D0D','#FAFAFA'], colorN:{uk:['Чорний','Білий'],en:['Black','White'],pl:['Czarny','Biały']}, sizes:['XS','S','M']},
+  {id:5, img:'IMG_8304_3.JPG', uah:4900,  pln:400,  colors:['#1A2744','#AEE2FC','#FAFAFA'], colorN:{uk:['Navy','Блакитний','Білий'],en:['Navy','Blue','White'],pl:['Granat','Błękit','Biały']}, sizes:['XS','S','M']},
+];
+
+let currentLang = 'uk';
+let cart = [];
+let selSizes = {};
+let selColors = {};
+
+/* ── SLIDE ── */
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+
+function goSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+function slideBy(d) { goSlide(currentSlide + d); }
+setInterval(() => slideBy(1), 4500);
+
+/* ── INFO DROPDOWN ── */
+let infoOpen = false;
+function toggleInfo(e) {
+  e.preventDefault();
+  infoOpen = !infoOpen;
+  document.getElementById('info-wrap').classList.toggle('open', infoOpen);
+}
+document.addEventListener('click', e => {
+  if (!document.getElementById('info-wrap').contains(e.target)) {
+    infoOpen = false;
+    document.getElementById('info-wrap').classList.remove('open');
+  }
+});
+
+/* ── LANG ── */
+function setLang(l) {
+  currentLang = l;
+  ['uk','en','pl'].forEach(x => {
+    document.getElementById('lb-'+x).classList.toggle('active', x===l);
+  });
+  applyLang(l);
+  renderShop();
+  renderCart();
+}
+
+function setText(id, txt) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = txt;
+}
+
+function applyLang(l) {
+  const t = T[l];
+  setText('nl-collection', t.nlCollection);
+  setText('nl-shop', t.nlShop);
+  setText('nl-info', t.nlInfo);
+  setText('dd-about', t.ddAbout);
+  setText('dd-delivery', t.ddDelivery);
+  setText('dd-contacts', t.ddContacts);
+  setText('dd-returns', t.ddReturns);
+  setText('dd-social', t.ddSocial);
+  setText('hero-eyebrow', t.heroEyebrow);
+  setText('btn-shop', t.btnShop);
+  setText('btn-about', t.btnAbout);
+  setText('look-title', t.lookTitle);
+  setText('p1-name', t.p1n); setText('p2-name', t.p2n); setText('p3-name', t.p3n);
+  setText('p1-badge', t.p1b); setText('p2-badge', t.p2b); setText('p3-badge', t.p3b);
+
+  const sym = l==='pl'?'zł':'₴';
+  setText('p1-price', '14 900' + (l==='pl'?' 1 250 zł':' ₴'));
+  document.getElementById('p1-price').textContent = l==='pl' ? '1 250 zł' : '14 900 ₴';
+  document.getElementById('p2-price').textContent = l==='pl' ? '800 zł' : '9 500 ₴';
+  document.getElementById('p3-price').textContent = l==='pl' ? 'від 370 zł' : 'від 4 500 ₴';
+
+  setText('shop-title', t.shopTitle); setText('shop-sub', t.shopSub);
+  setText('about-title', t.aboutTitle);
+  setText('about-tagline', t.aboutTagline);
+  setText('about-body', t.aboutBody);
+  setText('stat1', t.stat1); setText('stat2', t.stat2);
+  setText('stat3', t.stat3); setText('stat4', t.stat4);
+  setText('fc1', t.fc1); setText('fc2', t.fc2); setText('fc3', t.fc3);
+  setText('fl1', t.fl1); setText('fl2', t.fl2); setText('fl3', t.fl3);
+  setText('fl4', t.fl4); setText('fl5', t.fl5); setText('fl6', t.fl6); setText('fl7', t.fl7);
+  setText('footer-desc', t.fdesc); setText('footer-copy', t.fcopy);
+  setText('cart-title', t.cartTitle); setText('total-lbl', t.totalLbl);
+  setText('checkout-btn', t.checkoutBtn);
+
+  // marquee
+  const mq = t.mqItems;
+  ['','b'].forEach(sfx => {
+    setText('mq1'+sfx, mq[0]);
+    setText('mq2'+sfx, mq[1]);
+    setText('mq3'+sfx, mq[2]);
+  });
+}
+
+/* ── SHOP RENDER ── */
+function renderShop() {
+  const l = currentLang;
+  const t = T[l];
+  const sym = l==='pl'?'zł':'₴';
+  const grid = document.getElementById('shop-grid');
+  grid.innerHTML = PRODUCTS_DATA.map((p,i) => {
+    const pInfo = t.products[i];
+    const price = l==='pl' ? p.pln : p.uah;
+    const sc = selColors[p.id] ?? 0;
+    const ss = selSizes[p.id] ?? null;
+    return `<div class="shop-card">
+      <div class="shop-card-img">
+        <img src="${p.img}" alt="${pInfo.name}">
+        <span class="product-badge">${pInfo.badge}</span>
+      </div>
+      <div class="shop-card-body">
+        <div class="shop-card-name">${pInfo.name}</div>
+        <div class="shop-card-desc">${pInfo.desc}</div>
+        <div class="shop-card-price">${price.toLocaleString()} ${sym}</div>
+        ${p.colors.length > 1 ? `<div class="color-dots">
+          ${p.colors.map((c,ci) => `<div class="cdot ${ci===sc?'sel':''}"
+            style="background:${c};${c==='#FAFAFA'?'border:1.5px solid #ccc;':''}"
+            onclick="pickColor(${p.id},${ci})"
+            title="${p.colorN[l][ci]}"></div>`).join('')}
+        </div>` : ''}
+        <div class="size-row">
+          ${p.sizes.map(s => `<button class="sbtn ${ss===s?'sel':''}" onclick="pickSize(${p.id},'${s}')">${s}</button>`).join('')}
+        </div>
+        <button class="add-btn" onclick="addToCart(${p.id})">${t.addBtn}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function pickColor(pid, ci) { selColors[pid]=ci; renderShop(); }
+function pickSize(pid, s) { selSizes[pid]=s; renderShop(); }
+
+function addToCart(pid) {
+  const l = currentLang;
+  const t = T[l];
+  const size = selSizes[pid];
+  if (!size) { showToast(t.sizeMsg); return; }
+  const p = PRODUCTS_DATA.find(x=>x.id===pid);
+  const pInfo = t.products[pid-1];
+  const ci = selColors[pid]??0;
+  const color = p.colorN[l][ci];
+  const price = l==='pl'?p.pln:p.uah;
+  const sym = l==='pl'?'zł':'₴';
+  cart.push({pid, name:pInfo.name, size, color, price, sym, img:p.img});
+  document.getElementById('cart-count').textContent = cart.length;
+  renderCart();
+  showToast(t.addedMsg);
+}
+
+/* ── CART ── */
+function renderCart() {
+  const l = currentLang;
+  const t = T[l];
+  const body = document.getElementById('cart-body');
+  const foot = document.getElementById('cart-foot');
+  if (!cart.length) {
+    body.innerHTML = `<div class="cart-empty-state">
+      <span class="cart-empty-icon">✦</span>
+      <span class="cart-empty-text">${t.emptyCart}</span>
+    </div>`;
+    foot.style.display='none'; return;
+  }
+  body.innerHTML = cart.map((item,i) => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">${item.size} · ${item.color}</div>
+        <div class="cart-item-price">${item.price.toLocaleString()} ${item.sym}</div>
+      </div>
+      <button class="cart-rm" onclick="removeItem(${i})">×</button>
+    </div>`).join('');
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const sym = cart[0]?.sym||'₴';
+  document.getElementById('cart-total').textContent = total.toLocaleString()+' '+sym;
+  foot.style.display='block';
+}
+
+function removeItem(i) {
+  cart.splice(i,1);
+  document.getElementById('cart-count').textContent = cart.length;
+  renderCart();
+}
+
+function openCart() {
+  document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ── INIT ── */
+applyLang('uk');
+renderShop();
+renderCart();
+</script>
+</body>
+</html>
