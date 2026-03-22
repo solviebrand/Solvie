@@ -1,7 +1,7 @@
 
-  # Website page design
+  # solvie
 
-  This is a code bundle for Website page design. The original project is available at https://www.figma.com/design/GHJ2sYiO92OwkFFWZrmKN1/Website-page-design.
+  This is a code bundle for solvie. The original project is available at https://www.figma.com/design/aHPb6kRoS6ifkpwNT7w9rY/solvie.
 
   ## Running the code
 
